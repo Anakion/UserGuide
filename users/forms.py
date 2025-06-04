@@ -1,3 +1,5 @@
+from typing import Dict, Any
+
 from django import forms
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth import get_user_model, authenticate
@@ -262,5 +264,52 @@ class CustomUserUpdateForm(forms.ModelForm):
         ]:
             if cleaned_data.get(field):
                 cleaned_data[field] = strip_tags(cleaned_data[field])
+
+        return cleaned_data
+
+
+# Form password restoration forms
+
+
+class PasswordResetRequestForm(forms.Form):
+    email = forms.EmailField(
+        label="Email",
+        max_length=66,
+        widget=forms.EmailInput(
+            attrs={
+                "class": "input-register form-control",
+                "placeholder": "Your email",
+            }
+        ),
+    )
+
+
+class PasswordResetConfirmForm(forms.Form):
+    new_password1 = forms.CharField(
+        label="New password",
+        widget=forms.PasswordInput(
+            attrs={
+                "class": "input-register form-control",
+                "placeholder": "Your new password",
+            }
+        ),
+    )
+    new_password2 = forms.CharField(
+        label="Confirm new password",
+        widget=forms.PasswordInput(
+            attrs={
+                "class": "input-register form-control",
+                "placeholder": "Confirm your new password",
+            }
+        ),
+    )
+
+    def clean(self) -> Dict[str, Any]:
+        cleaned_data: Dict[str, Any] = super().clean()
+        new_password1 = cleaned_data.get("new_password1")
+        new_password2 = cleaned_data.get("new_password2")
+
+        if new_password1 and new_password2 and new_password1 != new_password2:
+            raise forms.ValidationError("Passwords do not match.")
 
         return cleaned_data

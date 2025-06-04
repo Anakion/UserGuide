@@ -163,4 +163,4 @@ EMAIL_USE_TLS = True
 EMAIL_HOST_USER = os.getenv("EMAIL_HOST_USER")  # Замените
 EMAIL_HOST_PASSWORD = os.getenv("EMAIL_HOST_PASSWORD")  # Замените
 DEFAULT_FROM_EMAIL = os.getenv("DEFAULT_FROM_EMAIL")  # Замените
-SITE_URL = "http://web:8000"
+SITE_URL = "http://127.0.0.1:8000"

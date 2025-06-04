@@ -20,4 +20,11 @@ urlpatterns = [
         name="update_account_details",
     ),
     path("logout/", CustomLogoutView.as_view(), name="logout"),
+
+    path("password-reset/", PasswordResetRequestView.as_view(), name="password_reset_request"),
+    path(
+        "password-reset/<uidb64>/<token>/",
+        PasswordResetConfirmView.as_view(),
+        name="password_reset_confirm",
+    ),
 ]
